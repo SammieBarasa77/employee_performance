@@ -1,4 +1,6 @@
 # Data Project
+![Samuel Barasa](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/Screenshot%202024-11-23%20222057.png)
+
 ## Superstore Employee Performance Analysis
 
 This project explores employee performance within a retail superstore to uncover key trends and metrics that directly impact sales and operational efficiency. By analyzing employee-related data, I identified trends such as peak sales periods by employee, sales contribution across departments, and customer satisfaction ratings tied to individual performance. Key metrics evaluated include employee sales revenue, task completion rates, and average handling time.
@@ -29,10 +31,8 @@ Highlighting sales patterns tied to employee performance for better-targeted sal
   - [Promotion Effectiveness Analysis](#promotion-effectiveness-analysis)
 - [Key Findings and Recommendations](#key-findings-and-recommendations)
 - [Insights and Visualizations](#insights-and-visualizations)  
-  - [Employee Insights Dashboard](#employee-insights-dashboard)  
-  - [Performance Trends Visualizations](#performance-trends-visualizations)  
-- [Conclusion](#conclusion)  
-- [How to Run the Project](#how-to-run-the-project)  
+  - [Dashboard](#dashboard)  
+- [Conclusion](#conclusion)   
 
 ## Project Overview
 This project evaluates employee performance in a superstore environment using SQL queries to process and analyze data. The insights generated aim to optimize workforce efficiency, reduce attrition, and promote diversity and inclusivity.
@@ -91,6 +91,7 @@ GROUP BY Department, Gender, CF_age_band
 ORDER BY Department, Gender, CF_age_band;
 ```
 
+
 ### Average Tenure and Age of Employees
 ```sql
 SELECT 
@@ -101,6 +102,8 @@ FROM hr_database.hr_info
 GROUP BY Department
 ORDER BY avg_tenure DESC;
 ```
+![Average Tenure and Employee Age](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/avg_tenure.png)
+
 ### Performance Analysis
 Average Performance Rating by Department
 ```sql
@@ -134,6 +137,8 @@ WHERE Years_since_promotion = 0
 GROUP BY Department
 ORDER BY promotions_last_year DESC;
 ```
+![Employees Promoter Last Year](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/no_eomployees_promoted_last_yr.png)
+
 ## Advanced Analysis 
 ### Key Performance Indicators
 Work-Life Balance vs. Performance Rating:
@@ -169,6 +174,7 @@ FROM top_employees_cte
 WHERE Employee_rank <= 3
 ORDER BY Department, Employee_rank;
 ```
+![Top Employees](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/top_empl_perf_rating.png)
 Demand forecast 
 ```sql
 -- Moving average of sales over the last 7 days
@@ -188,6 +194,9 @@ SELECT
     SUM(Sales * 2) / NULLIF(AVG(quantity), 0) AS turnover_rate  -- Turnover rate = sales * cost / quantity because the dataset had no cost field
 FROM inventory.inventory_data_1
 GROUP BY Product_ID, Product_Name;
+```
+![Inventory Turnover](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/inventory_tunover.png)
+
 ### Areas Needing Improvement
 Departments with the Highest Attrition Rate
 ```
@@ -209,9 +218,10 @@ SELECT
 FROM department_attrition_cte
 ORDER BY attrition_rate DESC;
 ```
+![Areas for Improvement](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/ares_for_improvemnt.png)
 Re-Order Point analysis 
 CTE to calculate the average daily sales for each product
-```
+```sql
 WITH daily_sales AS (
     SELECT 
         Product_ID,
@@ -241,6 +251,10 @@ GROUP BY
     ds.avg_daily_sales, 
     lt.avg_order_time;
 ```
+![Avearge Daily Sales for each Product](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/daily_sales.png)
+
+Re-Order Analysis Output
+![Re-Order Analysis Output](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/reorder_analysis.png)
 Shipping Performance (Supplier performance)
 ```sql
 SELECT 
@@ -287,6 +301,8 @@ SELECT
     END AS abc_classification
 FROM cumulative_sales;
 ```
+![ABC Analysis Output](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/abc_analysis.png)
+
 Stockout and Overstock Analysis
 Query to identify products with consistent stockouts
 ```sql
@@ -313,6 +329,7 @@ SELECT
 FROM stockout_products
 WHERE stockout_count > 0
 ORDER BY stockout_count DESC;
+```
 ### Diversity and Inlusion Analysis 
 Gender Diversity by Department
 ```sql
@@ -325,6 +342,8 @@ FROM hr_database.hr_info
 GROUP BY Department, Gender
 ORDER BY Department, gender_percentage DESC;
 ```
+![Gender Diversity](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/gender_diversity.png)
+
 Age Diversity by Department
 ```sql
 SELECT 
@@ -395,3 +414,104 @@ SELECT
 FROM promoted_employees
 GROUP BY promotion_status;
 ```
+![Attrition before and after](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/atrrition_before_and_after_promotion.png)
+
+### Insights and Visualizations
+The table compares employee attrition metrics before and after promotions. Below are the key findings:
+
+1. Employee Count:
+Pre-Promotion: 889 employees.
+Post-Promotion: 581 employees.
+There is a significant reduction in the number of employees post-promotion, possibly due to attrition or other factors.
+2. Attrition Count:
+Pre-Promotion: 127 employees left.
+Post-Promotion: 110 employees left.
+The attrition count decreased slightly after promotions.
+3. Attrition Rate:
+Pre-Promotion: 14.29%.
+Post-Promotion: 18.93%.
+The attrition rate increased post-promotion, despite a lower attrition count. This is likely due to the smaller employee base post-promotion.
+Key Observations:
+Attrition Rate Increase: The higher attrition rate post-promotion suggests that promotions may not have effectively retained employees. This could indicate dissatisfaction with the promotion process, increased workload, or unmet expectations.
+Employee Base Reduction: The smaller employee base post-promotion could amplify the attrition rate, as the percentage is calculated over a smaller denominator.
+Potential Areas for Improvement:
+Evaluate the promotion process to ensure it aligns with employee expectations.
+
+Address factors contributing to post-promotion attrition, such as workload, compensation, or role clarity.
+### Dashboard
+![Power BI Dashboard](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/atrrition_before_and_after_promotion.png)
+Check out my Tableau dashboard for this very analysis on Tableau Public: 'https://public.tableau.com/app/profile/samuel.barasa/viz/EmployeePerformance_17320505489020/Dashboard2'
+## Key Findings and Recommendations
+
+The table shows products categorized into ABC classifications (A and B visible in this snapshot)
+
+Product Distribution:
+
+A-Class Products:
+
+Zebra GX420t Direct Thermal/Thermal Transfer Printer
+Enermax Aurora Lite Keyboard
+B-Class Products:
+
+Logitech G700s Rechargeable Gaming Mouse
+Wi-Ex zBoost YX540 Cellular Phone Signal Booster
+DMI Arturo Collection Mission-style Design Wood Chair
+Office Star Ergonomic Mid-Back Chair
+Insights:
+
+Category A items appear to be higher-value or more critical items (printers and specialized keyboards)
+Category B items consist mainly of accessories and furniture
+There appears to be a structured inventory management system using ABC analysis principles
+Recommendations:
+
+A-class items likely require closer inventory monitoring and management due to their likely higher value or criticality
+B-class items can be managed with moderate controls
+Consider implementing specific inventory policies based on these classifications for optimal stock management
+The ABC analysis suggests a prioritized approach to inventory management, where A-items likely receive the most attention in terms of control and monitoring.
+
+Recommendations
+Performance Improvement Plans (PIPs):
+
+Use the analysis to identify employees who consistently underperform. Develop personalized PIPs for them, focusing on skill gaps and productivity boosters.
+Reward and Recognition Programs:
+
+Highlight high-performing employees and recommend incentive programs (e.g., bonuses, promotions) to retain top talent and motivate others.
+Balanced Workload Distribution:
+
+If the analysis reveals certain employees are overburdened, suggest strategies to redistribute tasks to improve efficiency and morale.
+Training and Upskilling Opportunities:
+
+Identify trends in performance metrics to pinpoint areas where training would significantly improve team performance. For instance, if most underperformers are in a specific role, recommend workshops or courses tailored to that role.
+Data-Driven Goal Setting:
+
+Propose using historical performance data to set realistic, data-informed KPIs for employees, making targets both challenging and achievable.
+Monitoring and Feedback Systems:
+
+Encourage implementing regular performance monitoring systems and feedback loops. Real-time dashboards can enable managers to act promptly on performance trends.
+Insights
+Key Performance Drivers:
+
+Analyze metrics like task completion rates, quality of work, and adherence to deadlines to uncover what differentiates high performers from others.
+Departmental Trends:
+
+Explore performance differences across departments or teams. This can help identify areas needing resources, policy changes, or leadership attention.
+Attrition Risks:
+
+Use correlations between performance metrics and turnover rates to detect signs of employee dissatisfaction or disengagement.
+High-Value Employee Profiles:
+
+Create a profile of the most productive employees. For example, look into attributes like tenure, skill set, or involvement in training programs.
+Impact of Work Environment:
+
+Assess the influence of factors like team size, work hours, and project allocation on employee performance, offering insights into optimizing workplace conditions.
+Productivity Trends Over Time:
+
+Present time-series analyses showing performance trends (e.g., improvement or decline during specific periods), linking these trends to organizational changes or external factors.
+
+
+Determine whether frequent feedback correlates with higher performance scores, suggesting actionable improvements in managerial practices.
+
+Business Impact Statement
+The insights and recommendations derived from this Employee Performance Analysis enable organizations to foster a culture of accountability, recognize and nurture talent, and enhance overall productivity. By leveraging these data-driven approaches, stakeholders can make informed decisions to align workforce performance with business goals, ensuring long-term growth and employee satisfaction.
+## Conclusion
+The Employee Performance Analysis project offers valuable insights into workforce dynamics, performance trends, and areas needing improvement within the organization. By leveraging SQL for robust data exploration and analysis, key findings such as performance metrics, attrition rates, and promotion effectiveness were uncovered. These insights emphasize the importance of strategic workforce planning, targeted interventions, and fostering a supportive work environment. The project demonstrates how data-driven approaches can enhance decision-making, optimize employee performance, and align organizational goals with workforce management strategies.
