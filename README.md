@@ -90,6 +90,7 @@ FROM hr_database.hr_info
 GROUP BY Department, Gender, CF_age_band
 ORDER BY Department, Gender, CF_age_band;
 ```
+
 ### Average Tenure and Age of Employees
 ```sql
 SELECT 
@@ -168,8 +169,29 @@ FROM top_employees_cte
 WHERE Employee_rank <= 3
 ORDER BY Department, Employee_rank;
 ```
+Demand forecast 
+```sql
+-- Moving average of sales over the last 7 days
+SELECT 
+    Product_ID,
+    Product_Name,
+    Order_Date,
+    AVG(Sales) OVER (PARTITION BY Product_ID ORDER BY Order_Date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS moving_avg_sales
+FROM inventory.inventory_data_1;
+```
+
+Inventory turnover 
+```sql
+SELECT 
+    Product_ID,
+    Product_Name,
+    SUM(Sales * 2) / NULLIF(AVG(quantity), 0) AS turnover_rate  -- Turnover rate = sales * cost / quantity because the dataset had no cost field
+FROM inventory.inventory_data_1
+GROUP BY Product_ID, Product_Name;
 ### Areas Needing Improvement
 Departments with the Highest Attrition Rate
+```
+Department Atrrition
 ```sql
 WITH department_attrition_cte AS (
     SELECT 
@@ -187,6 +209,110 @@ SELECT
 FROM department_attrition_cte
 ORDER BY attrition_rate DESC;
 ```
+Re-Order Point analysis 
+CTE to calculate the average daily sales for each product
+```
+WITH daily_sales AS (
+    SELECT 
+        Product_ID,
+        AVG(sales) AS avg_daily_sales
+    FROM inventory.inventory_data_1
+    GROUP BY Product_ID
+),
+order_time AS (                        -- CTE to calculate the average lead time for each supplier
+    SELECT 
+        Order_ID,
+        AVG(DATEDIFF(NOW(), Order_Date)) AS avg_order_time
+    FROM inventory.inventory_data_1
+    GROUP BY Order_ID
+)                                       -- Calculate reorder point by joining the two CTEs
+SELECT 
+    i.Product_ID,
+    i.Product_Name,
+    ds.avg_daily_sales,
+    lt.avg_order_time,
+    (ds.avg_daily_sales * lt.avg_order_time) AS reorder_point
+FROM daily_sales ds
+JOIN inventory.inventory_data_1 i ON ds.Product_ID = i.Product_ID
+JOIN order_time lt ON i.Order_ID = lt.Order_ID
+GROUP BY 
+    i.Product_ID, 
+    i.Product_Name, 
+    ds.avg_daily_sales, 
+    lt.avg_order_time;
+```
+Shipping Performance (Supplier performance)
+```sql
+SELECT 
+    Ship_Mode,
+    AVG(DATEDIFF(NOW(), Ship_Date)) AS avg_lead_time,
+    COUNT(CASE WHEN quantity = sales THEN 1 END) / COUNT(*) * 100 AS fulfillment_rate
+FROM inventory.inventory_data_1
+GROUP BY Ship_Mode;
+```
+Profitability Analysis 
+```sql
+SELECT 
+    Product_ID,
+    Product_Name,
+    (SUM(Sales * price) - SUM(sales * cost)) / SUM(Sales * price) AS gross_margin
+FROM inventory.inventory_data_1
+GROUP BY Product_ID, Product_Name;
+```
+ABC Analysis 
+```sql
+WITH product_sales AS (
+    SELECT 
+        Product_ID, 
+        Product_Name, 
+        SUM(Sales * Quantity) AS total_sales
+    FROM inventory.inventory_data_1
+    GROUP BY Product_ID, Product_Name
+),
+cumulative_sales AS (
+    SELECT 
+        ps.Product_ID,
+        ps.Product_Name,
+        ps.total_sales,
+        SUM(ps.total_sales) OVER (ORDER BY ps.total_sales DESC) / (SELECT SUM(total_sales) FROM product_sales) AS cumulative_share
+    FROM product_sales ps
+)
+SELECT 
+    Product_ID,
+    Product_Name,
+    CASE 
+        WHEN cumulative_share <= 0.8 THEN 'A'
+        WHEN cumulative_share <= 0.95 THEN 'B'
+        ELSE 'C'
+    END AS abc_classification
+FROM cumulative_sales;
+```
+Stockout and Overstock Analysis
+Query to identify products with consistent stockouts
+```sql
+WITH stock_status AS (
+    SELECT 
+        Product_ID, 
+        Product_Name, 
+        Quantity,
+        SUM(Sales) OVER (PARTITION BY Product_ID ORDER BY Order_Date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS total_sales_last_7_days
+    FROM inventory.inventory_data_1
+),
+stockout_products AS (
+    SELECT 
+        Product_ID, 
+        Product_Name,
+        COUNT(CASE WHEN Quantity = 0 AND total_sales_last_7_days > 0 THEN 1 END) AS stockout_count
+    FROM stock_status
+    GROUP BY Product_ID, Product_Name
+)
+SELECT 
+    Product_ID,
+    Product_Name,
+    stockout_count
+FROM stockout_products
+WHERE stockout_count > 0
+ORDER BY stockout_count DESC;
 ### Diversity and Inlusion Analysis 
 Gender Diversity by Department
 ```sql
