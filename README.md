@@ -199,8 +199,8 @@ GROUP BY Product_ID, Product_Name;
 
 ### Areas Needing Improvement
 Departments with the Highest Attrition Rate
-```
-Department Atrrition
+
+Department Attrition
 ```sql
 WITH department_attrition_cte AS (
     SELECT 
