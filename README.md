@@ -257,6 +257,8 @@ GROUP BY
 Re-Order Analysis Output
 
 ![Re-Order Analysis Output](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/reorder_analysis.png)
+
+
 Shipping Performance (Supplier performance)
 ```sql
 SELECT 
