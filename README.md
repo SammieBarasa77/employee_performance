@@ -305,7 +305,10 @@ FROM cumulative_sales;
 ```
 ![ABC Analysis Output](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/abc_analysis.png)
 
+
+
 Stockout and Overstock Analysis
+
 Query to identify products with consistent stockouts
 ```sql
 WITH stock_status AS (
@@ -441,8 +444,9 @@ Evaluate the promotion process to ensure it aligns with employee expectations.
 
 Address factors contributing to post-promotion attrition, such as workload, compensation, or role clarity.
 ### Dashboard
-![Power BI Dashboard](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/atrrition_before_and_after_promotion.png)
+![Power BI Dashboard](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/Screenshot%202024-11-18%20184425.png)
 Check out my Tableau dashboard for this very analysis on Tableau Public: 'https://public.tableau.com/app/profile/samuel.barasa/viz/EmployeePerformance_17320505489020/Dashboard2'
+
 ## Key Findings and Recommendations
 
 The table shows products categorized into ABC classifications (A and B visible in this snapshot)
