@@ -152,7 +152,7 @@ FROM hr_database.hr_info
 GROUP BY Relationship_satisfaction
 ORDER BY Relationship_satisfaction;
 ```
-Top Employees: This query will identify top-performing employees based on a combination of performance rating and years at the company.
+Top Employees: This query will identify top-performing employees based on a combination of performance ratings and years at the company.
 ```sql
 WITH top_employees_cte AS (
     SELECT 
@@ -219,7 +219,9 @@ FROM department_attrition_cte
 ORDER BY attrition_rate DESC;
 ```
 ![Areas for Improvement](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/ares_for_improvemnt.png)
+
 Re-Order Point analysis 
+
 CTE to calculate the average daily sales for each product
 ```sql
 WITH daily_sales AS (
@@ -251,12 +253,12 @@ GROUP BY
     ds.avg_daily_sales, 
     lt.avg_order_time;
 ```
+![Re-Order Analysis Output](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/reorder_analysis.png)
+
 ![Avearge Daily Sales for each Product](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/daily_sales.png)
 
 
 Re-Order Analysis Output
-
-![Re-Order Analysis Output](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/reorder_analysis.png)
 
 
 Shipping Performance (Supplier performance)
@@ -306,7 +308,6 @@ SELECT
 FROM cumulative_sales;
 ```
 ![ABC Analysis Output](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/abc_analysis.png)
-
 
 
 Stockout and Overstock Analysis
