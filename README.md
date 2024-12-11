@@ -472,6 +472,7 @@ Address factors contributing to post-promotion attrition, such as workload, comp
 
 ### Dashboard
 ![Power BI Dashboard](https://github.com/SammieBarasa77/employee_performance/blob/main/assets/images/Screenshot%202024-11-18%20184425.png)
+
 Check out my Tableau dashboard for this very analysis on Tableau Public: 'https://public.tableau.com/app/profile/samuel.barasa/viz/EmployeePerformance_17320505489020/Dashboard2'
 
 ## Key Findings and Recommendations
@@ -480,23 +481,32 @@ The table shows products categorized into ABC classifications (A and B visible i
 
 Product Distribution:
 
-A-Class Products:
+According to the above ABC analysis, this is how I managed to classify the products into A-Class and B-class.
 
-Zebra GX420t Direct Thermal/Thermal Transfer Printer
-Enermax Aurora Lite Keyboard
+A-Class Products
+
+Zebra GX420t Direct Thermal/Thermal Transfer Printer,
+
+Enermax Aurora Lite Keyboard.
+
+
 B-Class Products:
 
-Logitech G700s Rechargeable Gaming Mouse
-Wi-Ex zBoost YX540 Cellular Phone Signal Booster
-DMI Arturo Collection Mission-style Design Wood Chair
-Office Star Ergonomic Mid-Back Chair
-Insights:
+*Logitech G700s Rechargeable Gaming Mouse,*
 
-Category A items appear to be higher-value or more critical items (printers and specialized keyboards)
+*Wi-Ex zBoost YX540 Cellular Phone Signal Booster,*
 
-Category B items consist mainly of accessories and furniture
+*DMI Arturo Collection Mission-style Design Wood Chair,*
 
-There appears to be a structured inventory management system using ABC analysis principles
+*Office Star Ergonomic Mid-Back Chair.*
+
+Insights
+
+*Category A items appear to be higher-value or more critical items (printers and specialized keyboards)*
+
+*Category B items consist mainly of accessories and furniture*
+
+*There appears to be a structured inventory management system using ABC analysis principles*
 
 Recommendations:
 
